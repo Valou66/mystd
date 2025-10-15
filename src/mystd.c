@@ -35,6 +35,70 @@ void put_string(char *s){
     sys_write(1,s,len);
 }
 
+void put_char_nb(char nb){
+    char signe=0;
+    if(nb<0)signe=1;
+
+    char data[7];
+    data[6]=0;
+    int i=5;
+
+    char e;
+
+    while(nb!=0){
+        e=nb%10;
+        if(e<0)e=-e;
+        data[i]=get_ascii_digit(e);
+        nb=nb/10;
+        i--;
+    }
+
+    if(i==10){
+        data[i]=get_ascii_digit(0);
+        i--;
+    }
+    
+    if(signe==1){
+        data[i]='-';
+        i--;
+    }
+
+    put_string(data+i+1);
+
+}
+
+void put_short(short nb){
+    char signe=0;
+    if(nb<0)signe=1;
+
+    char data[7];
+    data[6]=0;
+    int i=5;
+
+    char e;
+
+    while(nb!=0){
+        e=nb%10;
+        if(e<0)e=-e;
+        data[i]=get_ascii_digit(e);
+        nb=nb/10;
+        i--;
+    }
+
+    if(i==10){
+        data[i]=get_ascii_digit(0);
+        i--;
+    }
+    
+    if(signe==1){
+        data[i]='-';
+        i--;
+    }
+
+    put_string(data+i+1);
+
+}
+
 void put_int(int nb){
     int signe=0;
     if(nb<0) signe=1;
@@ -68,8 +132,29 @@ void put_int(int nb){
 }
 
 void put_long(long nb){
-    int signe=0;
-    if(signe)
+    char signe=0;
+    if(nb<0)signe=1;
 
     char data[21];
+    data[20]=0;
+    int i=19;
+
+    char e;
+
+    while(nb!=0){
+        e=nb%10;
+        if(e<0)e=-e;
+        data[i]=get_ascii_digit(e);
+        nb=nb/10;
+        i--;
+    }
+    if(i==19){
+        data[i]=get_ascii_digit(0);
+    }
+    if(signe==1){
+        data[i]='-';
+        i--;
+    }
+
+    put_string(data+i+1);
 }

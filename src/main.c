@@ -10,10 +10,30 @@ int main() {
     put_string("Hello from main()\n");
     put_string("bit\n");
 
-    for(int i=0;i<=INTMAX;i++){
-        put_int(i);
-        put_string("\n");
-    }
+
+    put_char_nb(INT8MAX);
+    put_string("\n");
+
+    put_char_nb(NEGINT8MAX);
+    put_string("\n");
+    
+    put_short(INT16MAX);
+    put_string("\n");
+
+    put_short(NEGINT16MAX);
+    put_string("\n");
+
+    put_int(INT32MAX);
+    put_string("\n");
+
+    put_int(NEGINT32MAX);
+    put_string("\n");
+
+    put_long(INT64MAX);
+    put_string("\n");
+
+    put_long(NEGINT64MAX);
+    put_string("\n");
 
     return 0;
 }
