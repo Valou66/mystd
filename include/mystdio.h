@@ -1,5 +1,5 @@
-#ifndef mystd_h
-#define mystd_h
+#ifndef mystdio_h
+#define mystdio_h
 
 /*
 Lien:
@@ -19,8 +19,11 @@ void put_short(short nb);
 void put_int(int nb);
 void put_long(long nb);
 
-void put_double(double nb);
+void put_float(float nb,int p);
+void put_double(double nb,int p);
+void put_longdouble(long double nb,int p);
 
+void myprintf(const char *fmt,...);
 
 
 

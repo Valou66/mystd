@@ -1,4 +1,4 @@
-#include <mystd.h>
+#include <mystdio.h>
 #include <mystring.h>
 
 // --- write system call ---
@@ -30,8 +30,12 @@ void sys_exit(int code) {
     );
 }
 
+void put_char(char c){
+    sys_write(1,&c,1);
+}
+
 void put_string(char *s){
-    long len=str_len(s);
+    long len=strlen(s);
     sys_write(1,s,len);
 }
 
@@ -157,4 +161,89 @@ void put_long(long nb){
     }
 
     put_string(data+i+1);
+}
+
+void put_float(float nb,int p){
+    long entier=(int)nb;
+    float frac=nb-(float)entier;
+    put_long(entier);
+    put_char('.');
+
+    for(int i=0;i<p;i++){
+        frac *=10.0f;
+        int digit=(int)frac;
+        put_char('0'+digit);
+        frac-=digit;
+    }
+}
+
+void put_double(double nb,int p){
+    long entier=(int)nb;
+    double frac=nb-(double)entier;
+    put_long(entier);
+    put_char('.');
+
+    for(int i=0;i<p;i++){
+        frac *=10.0f;
+        int digit=(int)frac;
+        put_char('0'+digit);
+        frac-=digit;
+    }
+}
+
+void put_longdouble(long double nb,int p){
+    long entier=(int)nb;
+    long double frac=nb-(long double)entier;
+    put_long(entier);
+    put_char('.');
+
+    for(int i=0;i<p;i++){
+        frac *=10.0f;
+        int digit=(int)frac;
+        put_char('0'+digit);
+        frac-=digit;
+    }
+}
+
+void myprintf(const char *fmt,...){
+
+    put_string("entrer dans myprintf\n");
+
+    __builtin_va_list args;
+    __builtin_va_start(args,fmt);
+
+  
+    for(int i=0;fmt[i]!='\0';i++){
+        if(fmt[i]=='%'){
+            i++;
+            char f=fmt[i];
+
+            switch (f){
+                case 'd':{
+                    int val=__builtin_va_arg(args,int);
+                    put_int(val);
+                    break;
+                }
+
+                case 's':{
+                    char *s=__builtin_va_arg(args,char*);
+                    put_string(s);
+                    break;
+                }
+
+                case 'c':{
+                    char val=(char)__builtin_va_arg(args,int);
+                    put_char(val);
+                    break;
+                }
+
+                
+                
+            }
+        }
+
+        else{
+            put_char(fmt[i]);
+        }
+    }
 }

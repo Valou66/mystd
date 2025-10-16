@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS = -Wall -Wextra -nostdlib -static
+CFLAGS = -Wall -Wextra -nostdlib -static -fno-builtin
 INC_DIR=include
 SRC_DIR=src
 BLD_DIR=build
