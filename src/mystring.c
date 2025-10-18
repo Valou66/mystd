@@ -90,3 +90,18 @@ char* strchr(const char* string, int searchChar){
     }
 
 }
+/*
+unsigned long strcspn(const char* string,const char* rejectedCharacters){
+    unsigned long int res=0;
+    char* pt1=string;
+    char* pt2=rejectedCharacters;
+
+    int reject=0;
+
+    while(*pt1!='\0' && reject==0){
+
+    }
+
+
+}
+*/

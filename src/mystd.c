@@ -137,6 +137,100 @@ void put_long(long nb){
     put_string(data+i+1);
 }
 
+void put_unsigned_char_nb(unsigned char nb){
+
+    char data[7];
+    data[6]=0;
+    int i=5;
+
+    char e;
+
+    while(nb!=0){
+        e=nb%10;
+        if(e<0)e=-e;
+        data[i]=get_ascii_digit(e);
+        nb=nb/10;
+        i--;
+    }
+
+    if(i==10){
+        data[i]=get_ascii_digit(0);
+        i--;
+    }
+
+    put_string(data+i+1);
+
+}
+
+void put_unsigned_short(unsigned short nb){
+    char data[7];
+    data[6]=0;
+    int i=5;
+
+    char e;
+
+    while(nb!=0){
+        e=nb%10;
+        if(e<0)e=-e;
+        data[i]=get_ascii_digit(e);
+        nb=nb/10;
+        i--;
+    }
+
+    if(i==10){
+        data[i]=get_ascii_digit(0);
+        i--;
+    }
+
+    put_string(data+i+1);
+
+}
+
+void put_unsigned_int(unsigned int nb){
+    char data[12];
+    data[11]=0;
+    int i=10;
+
+    char e;
+
+    while(nb!=0){
+        e=nb%10;
+        if(e<0)e=-e;
+        data[i]=get_ascii_digit(e);
+        nb=nb/10;
+        i--;
+    }
+
+    if(i==10){
+        data[i]=get_ascii_digit(0);
+        i--;
+    }
+
+    put_string(data+i+1);
+    
+}
+
+void put_unsigned_long(unsigned long nb){
+    char data[21];
+    data[20]=0;
+    int i=19;
+
+    char e;
+
+    while(nb!=0){
+        e=nb%10;
+        if(e<0)e=-e;
+        data[i]=get_ascii_digit(e);
+        nb=nb/10;
+        i--;
+    }
+    if(i==19){
+        data[i]=get_ascii_digit(0);
+    }
+    put_string(data+i+1);
+}
+
+
 void put_float(float nb,int p){
     long entier=(int)nb;
     float frac=nb-(float)entier;
@@ -210,6 +304,12 @@ void myprintf(const char *fmt,...){
                         ++i;
                         long val;
                         val=(long)__builtin_va_arg(args,long);
+                        put_long(val);
+                    }
+                    if(fmt[i+1]=='u'){
+                        ++i;
+                        unsigned long val;
+                        val=(unsigned long)__builtin_va_arg(args,unsigned long);
                         put_long(val);
                     }
                     break;
