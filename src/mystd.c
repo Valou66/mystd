@@ -225,6 +225,22 @@ void myprintf(const char *fmt,...){
                     break;
                 }
 
+                case 'l':{
+                    if(fmt[i+1]=='f'){
+                        ++i;
+                        double val;
+                        val=(double)__builtin_va_arg(args,double);
+                        put_double(val,FLOAT_P);
+                    }
+                    if(fmt[i+1]=='d'){
+                        ++i;
+                        long val;
+                        val=(long)__builtin_va_arg(args,long);
+                        put_long(val);
+                    }
+                    break;
+                }
+
                 case 's':{
                     char *s=__builtin_va_arg(args,char*);
                     put_string(s);
@@ -234,6 +250,13 @@ void myprintf(const char *fmt,...){
                 case 'c':{
                     char val=(char)__builtin_va_arg(args,int);
                     put_char(val);
+                    break;
+                }
+
+                case 'f':{
+                    double val;
+                    val=(double)__builtin_va_arg(args,double);
+                    put_double(val,FLOAT_P);
                     break;
                 }
 

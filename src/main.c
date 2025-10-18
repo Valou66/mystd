@@ -65,9 +65,20 @@ int main() {
     int t1=47;
     char t5='m';
     char t9[]="COPACOPACOPA";
+    float t13=654.54784;
+    double t17=654.54784;
+        long t18=5897491315;
+    myprintf("test long %ld \n",t18);
+
     
 
     myprintf("Grand singe de %d%c %s  %d%d%d%d,%d%d%d%d,%d%d%d%d,%d%d%d%d,\n",t1,t5,t9,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5);
+
+    myprintf("test %f ,\n %lf \n",t13,t17);
+    
+
+
+    myprintf("test long %ld \n",t18);
 
     return 0;
 }

@@ -37,4 +37,6 @@ void myprintf(const char *fmt,...);
 #define NEGINT32MAX -2147483648
 #define NEGINT64MAX -9223372036854775808
 
+#define FLOAT_P 6
+
 #endif
