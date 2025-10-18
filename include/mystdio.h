@@ -8,8 +8,8 @@ Table appel systeme:https://syscall.sh/
 */
 
 //mystd.c
-long sys_write(int fd, const char *buf, unsigned long count);
-void sys_exit(int code);
+
+#define NULL 0
 
 void put_char(char c);
 void put_string(char *s);

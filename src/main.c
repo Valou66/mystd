@@ -1,5 +1,6 @@
 #include <mystdio.h>
 #include <mystring.h>
+#include <mysyscall.h>
 
 // --- ton vrai main() ---
 int main() {
@@ -8,78 +9,35 @@ int main() {
     //sys_write(1, msg, 19);
 
     put_string("Hello from main()\n");
-    put_string("bit\n");
-
-
-    put_char_nb(INT8MAX);
-    put_string("\n");
-
-    put_char_nb(NEGINT8MAX);
-    put_string("\n");
-    
-    put_short(INT16MAX);
-    put_string("\n");
-
-    put_short(NEGINT16MAX);
-    put_string("\n");
-
-    put_int(INT32MAX);
-    put_string("\n");
-
-    put_int(NEGINT32MAX);
-    put_string("\n");
-
-    put_long(INT64MAX);
-    put_string("\n");
-
-    put_long(NEGINT64MAX);
-    put_string("\n");
-
     char str1[25]="Grand ";
     char str2[25]="Singe ";
-
-    put_string(str1);
-    put_string("\n");
-    put_string(str2);
-    put_string("\n");
-
     strcpy(str1,str2);
-
     put_string(str1);
-    put_string("\n");
-
-    float nb1=587.471f;
-    double nb2=587.471L;
-    long double nb3=587.471L;
-    int p=6;
-
-    put_float(nb1,p);
-    put_string("\n");
-
-    put_double(nb2,p);
-    put_string("\n");
-
-    put_longdouble(nb3,p);
-    put_string("\n");
-
     int t1=47;
     char t5='m';
     char t9[]="COPACOPACOPA";
     float t13=654.54784;
     double t17=654.54784;
-        long t18=5897491315;
-    myprintf("test long %ld \n",t18);
-
-    
-
-    myprintf("Grand singe de %d%c %s  %d%d%d%d,%d%d%d%d,%d%d%d%d,%d%d%d%d,\n",t1,t5,t9,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5);
-
+    long t18=5897491315;
+    myprintf("Grand singe de %d%c %s \n",t1,t5,t9);
     myprintf("test %f ,\n %lf \n",t13,t17);
-    
-
-
     myprintf("test long %ld \n",t18);
 
+    // long testread;
+    // put_string("entre stp\n");
+    // sys_read(0,&testread,sizeof(long));
+
+    // put_long(testread);
+
+    put_int(strcmp("pipai","pipi"));
+    put_char('\n');
+
+    char a[128]="test1";
+    char b[128]="test2\n";
+
+    strcat(a,b);
+
+    put_string(a);
     return 0;
 }
 
