@@ -9,6 +9,10 @@ char get_ascii_digit(int nb){
     return 0;
 }
 
+int get_digit_ascii(char c){
+    return c-48;
+}
+
 long strlen(const char* string){
     long len=0;
 
@@ -105,3 +109,18 @@ unsigned long strcspn(const char* string,const char* rejectedCharacters){
 
 }
 */
+
+char* strtok(char *string,const char* delimiters){
+    static char* save=0;
+
+    if(string!=NULL){
+        save=string;
+    }
+    else if(save==0){
+        return 0;
+    }
+
+   
+    
+}
+

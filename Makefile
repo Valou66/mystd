@@ -29,5 +29,6 @@ $(BLD_DIR):
 clean:
 	rm -f $(BLD_DIR)/*.o
 	rm -f $(BLD_DIR)/$(EXE)
+	rm -f *.out
 
 .PHONY: all clean

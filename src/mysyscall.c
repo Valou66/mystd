@@ -17,6 +17,14 @@ long sys_read(int fd, void *buf, unsigned long count){
     return ret;
 }
 
+long sys_read_retry(int fd,void *buf,unsigned long count){
+    long r;
+    do{
+        r=sys_read(fd,buf,count);
+    }while(r==-4);
+    return r;
+}
+
 long sys_write(int fd, void *buf, unsigned long count) {
     long ret;
     asm volatile (

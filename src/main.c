@@ -1,6 +1,7 @@
 #include <mystdio.h>
 #include <mystring.h>
 #include <mysyscall.h>
+#include <mymath.h>
 
 // --- ton vrai main() ---
 int main() {
@@ -23,12 +24,6 @@ int main() {
     myprintf("test %f ,\n %lf \n",t13,t17);
     myprintf("test long %ld \n",t18);
 
-    // long testread;
-    // put_string("entre stp\n");
-    // sys_read(0,&testread,sizeof(long));
-
-    // put_long(testread);
-
     put_int(strcmp("pipai","pipi"));
     put_char('\n');
 
@@ -37,7 +32,32 @@ int main() {
 
     strcat(a,b);
 
-    put_string(a);
+    put_short(str_short("32767"));
+    put_char('\n');
+    put_short(str_short("32769"));
+    put_char('\n');
+
+    put_int(str_int("2147483647"));
+    put_char('\n');
+    put_int(str_int("2147483649"));
+    put_char('\n');
+    put_int(str_int("-2147483648"));
+    put_char('\n');
+
+    put_long(str_long("9223372036854775807"));
+    put_char('\n');
+    put_long(str_long("9223372036854775809"));
+    put_char('\n');
+
+    put_float(str_float("1047.5497"),FLOAT_P);
+    put_char('\n');
+    put_double(str_double("1047.5497"),FLOAT_P);
+    put_char('\n');
+
+
+   
+    
+    
     return 0;
 }
 
@@ -45,5 +65,6 @@ int main() {
 void _start() {
     int ret = main();
     sys_exit(ret);
+    
 }
 
