@@ -1,8 +1,4 @@
 #include <mystdio.h>
-#include <mystring.h>
-#include <mysyscall.h>
-#include <convert.h>
-#include <macro.h>
 
 void put_char(char c){
     sys_write(1,&c,1);

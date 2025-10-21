@@ -1,6 +1,11 @@
 #ifndef mystdio_h
 #define mystdio_h
 
+#include <mystring.h>
+#include <mysyscall.h>
+#include <convert.h>
+#include <macro.h>
+
 //mystd.c
 
 

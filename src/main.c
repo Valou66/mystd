@@ -1,8 +1,6 @@
 #include <mystdio.h>
-#include <mystring.h>
-#include <mysyscall.h>
 #include <mymath.h>
-#include <convert.h>
+
 
 // --- ton vrai main() ---
 int main() {
@@ -55,25 +53,9 @@ int main() {
     put_double(str_double("1047.5497"));
     put_char('\n');
 
-
     
 
-    char tt1[256];
-
-    put_string("entre un chaine stp\n");
-    myscanf("%s",tt1);
-    myprintf("myscanf6:%s\n",tt1);
-
-
-
-
-
-
-
-
-
-
-
+    
     
     return 0;
 }

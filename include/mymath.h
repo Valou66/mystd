@@ -15,4 +15,6 @@ float absf(float nb);
 float sqrtf(float nb);
 double sqrtl(double nb);
 
+double ln(double x);
+
 #endif

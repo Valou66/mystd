@@ -41,6 +41,37 @@ long sys_write(int fd, void *buf, unsigned long count) {
     return ret;
 }
 
+long sys_open(const char *pathname, int flags, int mode) {
+    long ret;
+    __asm__ volatile (
+        "movq $2, %%rax\n\t"      // 2 = SYS_open
+        "movq %1, %%rdi\n\t"      // pathname
+        "movq %2, %%rsi\n\t"      // flags
+        "movq %3, %%rdx\n\t"      // mode
+        "syscall\n\t"
+        "movq %%rax, %0\n\t"
+        : "=r"(ret)
+        : "r"(pathname), "r"((long)flags), "r"((long)mode)
+        : "rax","rdi","rsi","rdx","rcx","r11","memory"
+    );
+    return ret; // fd ou code d’erreur négatif
+}
+
+long sys_close(int fd) {
+    long ret;
+    __asm__ volatile (
+        "movq $3, %%rax\n\t"   // 3 = SYS_close
+        "movq %1, %%rdi\n\t"
+        "syscall\n\t"
+        "movq %%rax, %0\n\t"
+        : "=r"(ret)
+        : "r"((long)fd)
+        : "rax","rdi","rcx","r11","memory"
+    );
+    return ret;
+}
+
+
 // --- exit system call ---
 void sys_exit(int code) {
     asm volatile (
