@@ -2,3 +2,4 @@
 *.out
 /test
 test.c
+*.json

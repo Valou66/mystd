@@ -1,7 +1,8 @@
 #include <mystdio.h>
 #include <mystring.h>
 #include <mysyscall.h>
-#include <mymath.h>
+#include <convert.h>
+#include <macro.h>
 
 void put_char(char c){
     sys_write(1,&c,1);
@@ -230,13 +231,13 @@ void put_unsigned_long(unsigned long nb){
 }
 
 
-void put_float(float nb,int p){
+void put_float(float nb){
     long entier=(int)nb;
     float frac=nb-(float)entier;
     put_long(entier);
     put_char('.');
 
-    for(int i=0;i<p;i++){
+    for(int i=0;i<FLOAT_P;i++){
         frac *=10.0f;
         int digit=(int)frac;
         put_char('0'+digit);
@@ -244,13 +245,13 @@ void put_float(float nb,int p){
     }
 }
 
-void put_double(double nb,int p){
+void put_double(double nb){
     long entier=(int)nb;
     double frac=nb-(double)entier;
     put_long(entier);
     put_char('.');
 
-    for(int i=0;i<p;i++){
+    for(int i=0;i<FLOAT_P;i++){
         frac *=10.0f;
         int digit=(int)frac;
         put_char('0'+digit);
@@ -258,13 +259,13 @@ void put_double(double nb,int p){
     }
 }
 
-void put_longdouble(long double nb,int p){
+void put_longdouble(long double nb){
     long entier=(int)nb;
     long double frac=nb-(long double)entier;
     put_long(entier);
     put_char('.');
 
-    for(int i=0;i<p;i++){
+    for(int i=0;i<FLOAT_P;i++){
         frac *=10.0f;
         int digit=(int)frac;
         put_char('0'+digit);
@@ -272,257 +273,19 @@ void put_longdouble(long double nb,int p){
     }
 }
 
-char str_char(char *buf){
-    char res=0;
-    long len=strlen(buf);
-    int e;
-    int signe;
-    if(buf[0]=='-'){
-        signe=1;
-    }
-    else{
-        signe=0;
-    }
-    for(int i=0;i<len;i++){
-        e=get_digit_ascii(buf[i]);
-        res=res+(e*pow_int(10,len-i));
-     
+long read_line(char* buf,unsigned long size){
+    long n=sys_read(0,buf,size-1);
+    if(n<=0)return n;
+
+    for(long i=0;i<n;i++){
+        if(buf[i]=='\n' || buf[i]=='\r'){
+            buf[i]='\0';
+            return i;
+        }
     }
 
-    if(signe==1){
-        res=-res;
-    }
-    return res;
-}
-
-short str_short(char *buf){
-    short res=0;
-    long len=strlen(buf);
-    int e;
-    int signe;
-    if(buf[0]=='-'){
-        signe=1;
-    }
-    else{
-        signe=0;
-    }
-    for(int i=0;i<len;i++){
-        e=get_digit_ascii(buf[i]);
-        res=res+(e*pow_int(10,len-i));
-     
-    }
-    if(signe==1){
-        res=-res;
-    }
-    return res;
-}
-
-int str_int(char *buf){
-    int res=0;
-    long len=strlen(buf);
-    int e;
-    int signe;
-    if(buf[0]=='-'){
-        signe=1;
-    }
-    else{
-        signe=0;
-    }
-    for(int i=0;i<len;i++){
-        e=get_digit_ascii(buf[i]);
-        if(signe)
-            res=res-(e*pow_int(10,len-i));
-        else
-            res=res+(e*pow_int(10,len-i));
-    }
-    return res;
-}
-
-long str_long(char *buf){
-    long res=0;
-    long len=strlen(buf);
-    int e;
-    int signe;
-    if(buf[0]=='-'){
-        signe=1;
-    }
-    else{
-        signe=0;
-    }
-    for(int i=0;i<len;i++){
-        e=get_digit_ascii(buf[i]);
-        res=res+(e*pow_long(10,len-i));
-     
-    }
-    if(signe==1){
-        res=-res;
-    }
-    return res;
-}
-
-float str_float(char *buf){
-    float res=0.0;
-
-    int i=0;
-    int len_int=0;
-    int len_frac=0;
-    while(buf[i]!='\0' && buf[i]!='.'){
-        i++;
-        len_int++;
-    }
-    i++;
-    while(buf[i]!='\0'){
-        i++;
-        len_frac++;
-    }
-
-    char cut[len_int+1];
-
-    for(int j=0;j<len_int;j++){
-        cut[j]=buf[j];
-    }
-    cut[len_int]='\0';
-    long float_int=str_long(cut);
-
-
-    res+=(float)float_int;
-
-    i=len_int+1;
-    int j=1;
-    while(buf[i]!='\0'){
-        res+=(float)((float)get_digit_ascii(buf[i])*powl(10.0,-j));
-        j++;
-        i++;
-    }
-
-    return res;
-
-}
-
-double str_double(char *buf){
-    double res=0.0;
-
-    int i=0;
-    int len_int=0;
-    int len_frac=0;
-    while(buf[i]!='\0' && buf[i]!='.'){
-        i++;
-        len_int++;
-    }
-    i++;
-    while(buf[i]!='\0'){
-        i++;
-        len_frac++;
-    }
-
-    char cut[len_int+1];
-
-    for(int j=0;j<len_int;j++){
-        cut[j]=buf[j];
-    }
-    cut[len_int]='\0';
-    long float_int=str_long(cut);
-
-
-    res+=(double)float_int;
-
-    i=len_int+1;
-    int j=1;
-    while(buf[i]!='\0'){
-        res+=(double)((double)get_digit_ascii(buf[i])*powl(10.0,-j));
-        j++;
-        i++;
-    }
-
-    return res;
-
-}
-
-long double str_longdouble(char *buf){
-    long double res=0.0;
-
-    int i=0;
-    int len_int=0;
-    int len_frac=0;
-    while(buf[i]!='\0' && buf[i]!='.'){
-        i++;
-        len_int++;
-    }
-    i++;
-    while(buf[i]!='\0'){
-        i++;
-        len_frac++;
-    }
-
-    char cut[len_int+1];
-
-    for(int j=0;j<len_int;j++){
-        cut[j]=buf[j];
-    }
-    cut[len_int]='\0';
-    long float_int=str_long(cut);
-
-
-    res+=(long double)float_int;
-
-    i=len_int+1;
-    int j=1;
-    while(buf[i]!='\0'){
-        res+=(long double)((long double)get_digit_ascii(buf[i])*powl(10.0,-j));
-        j++;
-        i++;
-    }
-
-    return res;
-
-}
-
-unsigned char str_unsigned_char(char *buf){
-    unsigned char res=0;
-    long len=strlen(buf);
-    int e;
-    for(int i=0;i<len;i++){
-        e=get_digit_ascii(buf[i]);
-        res=res+(e*pow_int(10,len-i));
-     
-    }
-    return res;
-}
-
-unsigned short str_unsigned_short(char *buf){
-    unsigned short res=0;
-    long len=strlen(buf);
-    int e;
-    for(int i=0;i<len;i++){
-        e=get_digit_ascii(buf[i]);
-        res=res+(e*pow_int(10,len-i));
-     
-    }
-    return res;
-}
-
-unsigned int str_unsigned_int(char *buf){
-    unsigned int res=0;
-    long len=strlen(buf);
-    int e;
-    for(int i=0;i<len;i++){
-        e=get_digit_ascii(buf[i]);
-        res=res+(e*pow_int(10,len-i));
-     
-    }
-    return res;
-}
-
-unsigned long str_unsigned_long(char *buf){
-    unsigned long res=0;
-    long len=strlen(buf);
-    int e;
-    for(int i=0;i<len;i++){
-        e=get_digit_ascii(buf[i]);
-        res=res+(e*pow_long(10,len-i));
-     
-    }
-    return res;
+    buf[n]='\0';
+    return n;
 }
 
 void myprintf(const char *fmt,...){
@@ -549,7 +312,7 @@ void myprintf(const char *fmt,...){
                         ++i;
                         double val;
                         val=(double)__builtin_va_arg(args,double);
-                        put_double(val,FLOAT_P);
+                        put_double(val);
                     }
                     if(fmt[i+1]=='d'){
                         ++i;
@@ -581,7 +344,7 @@ void myprintf(const char *fmt,...){
                 case 'f':{
                     double val;
                     val=(double)__builtin_va_arg(args,double);
-                    put_double(val,FLOAT_P);
+                    put_double(val);
                     break;
                 }
 
@@ -594,4 +357,87 @@ void myprintf(const char *fmt,...){
             put_char(fmt[i]);
         }
     }
+}
+
+void myscanf(const char *fmt,...){
+    __builtin_va_list args;
+    __builtin_va_start(args,fmt);
+
+    char buf[INPUT_BUF_SIZE];
+
+    for(int i=0;fmt[i]!='\0';i++){
+        i++;
+        char f=fmt[i];
+
+        switch(f){
+            case 'c':{
+                read_line(buf,sizeof(buf));
+                char *p=__builtin_va_arg(args,char*);
+                *p=buf[0];
+                break;
+            }
+
+            case 'd':{
+                read_line(buf,sizeof(buf));
+                int*p=__builtin_va_arg(args,int*);
+                *p=str_int(buf);
+                break;
+            }
+
+            case 'l':{
+                char n=fmt[i+1];
+                switch(n){
+                    case 'd':{
+                        read_line(buf,sizeof(buf));
+                        long *p=__builtin_va_arg(args,long*);
+                        *p=str_long(buf);
+                        i++;
+                        break;
+                    }
+                    case 'f':{
+                        read_line(buf,sizeof(buf));
+                        double *p=__builtin_va_arg(args,double*);
+                        *p=str_double(buf);
+                        i++;
+                        break;
+                    }
+                    case 'u':{
+                        read_line(buf,sizeof(buf));
+                        unsigned long *p=__builtin_va_arg(args,unsigned long*);
+                        *p=str_unsigned_long(buf);
+                        i++;
+                        break;
+                    }
+                }
+                break;
+            }
+
+            case 'f':{
+                read_line(buf,sizeof(buf));
+                float*p=__builtin_va_arg(args,float*);
+                *p=str_float(buf);
+                break;
+            }
+
+            case 'u':{
+                read_line(buf,sizeof(buf));
+                unsigned int*p=__builtin_va_arg(args,unsigned int*);
+                *p=str_unsigned_int(buf);
+                break;
+            }
+
+            case 's':{
+                read_line(buf,sizeof(buf));
+                char *p=__builtin_va_arg(args,char*);
+                int j=0;
+                while(buf[j]!='\0'){
+                    p[j]=buf[j];
+                    j++;
+                }
+                p[j]='\0';
+                break;
+            }
+        }
+    }
+    __builtin_va_end(args);
 }

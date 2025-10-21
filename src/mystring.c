@@ -1,6 +1,7 @@
 #include <mystring.h>
 #include <mymath.h>
 #include <mystdio.h>
+#include <macro.h>
 
 char get_ascii_digit(int nb){
     if(nb >=0 && nb<=9){

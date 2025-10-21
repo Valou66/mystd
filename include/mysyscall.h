@@ -1,6 +1,12 @@
 #ifndef mysyscall_h
 #define mysyscall_h
 
+/*
+Lien:
+
+Table appel systeme:https://syscall.sh/
+*/
+
 long sys_write(int fd, void *buf, unsigned long count);
 long sys_read(int fd, void *buf, unsigned long count);
 long sys_read_retry(int fd,void *buf,unsigned long count);

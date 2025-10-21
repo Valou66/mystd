@@ -10,5 +10,9 @@ long pow_long(long x,long n);
 float powf(float x,int n);
 double powl(double x,int n);
 
+float absf(float nb);
+
+float sqrtf(float nb);
+double sqrtl(double nb);
 
 #endif

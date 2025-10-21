@@ -1,7 +1,5 @@
 #ifndef mystring_h
 #define mystring_h
-char get_ascii_digit(int nb);
-int get_digit_ascii(char c);
 
 char* strcat(char* dest,const char* src);//fait
 char* strchr(const char* string, int searchChar);//fait

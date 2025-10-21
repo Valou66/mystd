@@ -2,6 +2,7 @@
 #include <mystring.h>
 #include <mysyscall.h>
 #include <mymath.h>
+#include <convert.h>
 
 // --- ton vrai main() ---
 int main() {
@@ -49,14 +50,30 @@ int main() {
     put_long(str_long("9223372036854775809"));
     put_char('\n');
 
-    put_float(str_float("1047.5497"),FLOAT_P);
+    put_float(str_float("1047.5497"));
     put_char('\n');
-    put_double(str_double("1047.5497"),FLOAT_P);
+    put_double(str_double("1047.5497"));
     put_char('\n');
 
 
-   
     
+
+    char tt1[256];
+
+    put_string("entre un chaine stp\n");
+    myscanf("%s",tt1);
+    myprintf("myscanf6:%s\n",tt1);
+
+
+
+
+
+
+
+
+
+
+
     
     return 0;
 }

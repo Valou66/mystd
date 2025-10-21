@@ -1,5 +1,6 @@
 #include <mymath.h>
 #include <mystdio.h>
+#include <macro.h>
 int int_min(int a,int b){
     if(a<b){
         return a;
@@ -80,4 +81,59 @@ double powl(double x,int n){
         
 
     return res;
+}
+
+float absf(float nb){
+    if(nb<0.0) return -nb;
+    return nb;
+}
+
+float sqrtf(float nb){
+    if(nb==0.0)return 0.0f;
+
+    float result=nb;
+
+    for(int i=0;i<SQRT_P;i++){
+        result=(1.0/2.0)*(result+nb/result);
+    }
+
+    return result;
+}
+
+double sqrtl(double nb){
+    if(nb==0.0)return 0.0;
+
+    double result=nb;
+
+    for(int i=0;i<SQRT_P;i++){
+        result=(1.0/2.0)*(result+nb/result);
+    }
+
+    return result;
+}
+
+double ln(double x){
+    if(x<=0){
+        myprintf("ln non definit");
+        return 0.0;
+    }
+
+    int k=0;
+    while(x>2.0){
+        x/=EXP;
+        k++;
+    }
+
+    double y=x-1;
+    double term=y;
+    double result=y;
+    int n;
+
+    for(n=2;n<LN_P;n++){
+        term*=-y*(n-1)/n;
+        result+=term;
+    }
+
+    result +=k;
+    return result;
 }
