@@ -6,9 +6,16 @@
 #include <convert.h>
 #include <macro.h>
 
-//mystd.c
+typedef struct{
+    int fd;
+    char mode;
+    char *buffer;
+    unsigned long pos;
+    unsigned long size;
+}FILE;
 
-
+FILE *fopen(const char *nom, const char *mode);
+int fclose(FILE *f);
 
 void put_char(char c);
 void put_string(char *s);
@@ -29,5 +36,7 @@ long read_line(char *buf,unsigned long size);
 
 void myprintf(const char *fmt,...);
 void myscanf(const char *fmt,...);
+
+
 
 #endif

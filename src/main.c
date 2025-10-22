@@ -1,5 +1,6 @@
 #include <mystdio.h>
 #include <mymath.h>
+#include <mystdlib.h>
 
 
 // --- ton vrai main() ---
@@ -53,10 +54,13 @@ int main() {
     put_double(str_double("1047.5497"));
     put_char('\n');
 
+   
+
     
 
     
     
+
     return 0;
 }
 

@@ -19,7 +19,15 @@ long sys_open(const char *filename,int flags,int mode);
 
 long sys_close(int fd);
 
+//syscall12
+void *sys_brk(void *addr);
+
 //syscall 60
 void sys_exit(int code);
 
+void *sys_mmap(void *addr, unsigned long length, unsigned long prot,
+                      unsigned long flags, long fd, unsigned long offset);
+
+
+long sys_munmap(void *addr, unsigned long length);
 #endif

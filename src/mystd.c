@@ -437,3 +437,46 @@ void myscanf(const char *fmt,...){
     }
     __builtin_va_end(args);
 }
+
+FILE *fopen(const char *nom, const char *mode){
+    int flags=0;
+    int perms=0644;
+
+    if (mode[0] == 'r') {
+        if (mode[1] == '+') flags = O_RDWR;
+        else flags = O_RDONLY;
+    } else if (mode[0] == 'w') {
+        if (mode[1] == '+') flags = O_RDWR | O_CREAT | O_TRUNC;
+        else flags = O_WRONLY | O_CREAT | O_TRUNC;
+    } else if (mode[0] == 'a') {
+        if (mode[1] == '+') flags = O_RDWR | O_CREAT | O_APPEND;
+        else flags = O_WRONLY | O_CREAT | O_APPEND;
+    } else {
+        return 0; // mode invalide
+    }
+
+    int fd = sys_open(nom, flags, perms);
+    if (fd < 0) return 0; // erreur d'ouverture
+
+    // allocation de la structure
+    FILE *f = (FILE*) malloc(sizeof(FILE));
+    if (!f) {
+        sys_close(fd);
+        return 0;
+    }
+
+    f->fd = fd;
+    f->mode = mode[0];
+    f->buffer = 0;
+    f->pos = 0;
+    f->size = 0;
+
+    return f;
+}
+
+int fclose(FILE *f){
+    if(!f) return -1;
+    int ret=sys_close(f->fd);
+    free(f);
+    return ret;
+}

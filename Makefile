@@ -1,6 +1,6 @@
 # === Variables ===
 CC       := gcc
-CFLAGS   := -Wall -Wextra -nostdlib -static -fno-builtin -mstackrealign
+CFLAGS   := -O0 -Wall -Wextra -nostdlib -static -fno-builtin -mstackrealign
 INC_DIR  := include
 SRC_DIR  := src
 BLD_DIR  := build
@@ -30,5 +30,6 @@ clean:
 	rm -f $(BLD_DIR)/*.o
 	rm -f $(BLD_DIR)/$(EXE)
 	rm -f *.out
+	rm -f *.txt
 
 .PHONY: all clean

@@ -1,4 +1,5 @@
 #include <mysyscall.h>
+#include <mystdlib.h>
 
 long sys_read(int fd, void *buf, unsigned long count){
     long ret;
@@ -71,6 +72,21 @@ long sys_close(int fd) {
     return ret;
 }
 
+void *sys_brk(void *addr){
+    long ret;
+    __asm__ volatile (
+        "movq $12, %%rax\n\t"      // SYS_brk = 12
+        "movq %1, %%rdi\n\t"
+        "syscall\n\t"
+        "movq %%rax, %0\n\t"
+        : "=r"(ret)
+        : "r"(addr)
+        : "rax", "rdi", "rcx", "r11", "memory"
+    );
+    return (void *) (uintptr_t) ret;
+}
+
+
 
 // --- exit system call ---
 void sys_exit(int code) {
@@ -82,4 +98,40 @@ void sys_exit(int code) {
         : "r"((long)code)
         : "rax", "rdi"
     );
+}
+
+void *sys_mmap(void *addr, unsigned long length, unsigned long prot,
+               unsigned long flags, long fd, unsigned long offset)
+{
+    register void *rdi __asm__("rdi") = addr;
+    register unsigned long rsi __asm__("rsi") = length;
+    register unsigned long rdx __asm__("rdx") = prot;
+    register unsigned long r10 __asm__("r10") = flags;
+    register long r8  __asm__("r8")  = fd;
+    register unsigned long r9  __asm__("r9")  = offset;
+    register long rax __asm__("rax") = 9;  // syscall mmap
+
+    __asm__ volatile("syscall"
+                     : "+r"(rax)
+                     : "r"(rdi), "r"(rsi), "r"(rdx), "r"(r10), "r"(r8), "r"(r9)
+                     : "rcx", "r11", "memory");
+
+    return (void *)rax;
+}
+/* syscall: munmap (11)
+   int munmap(void *addr, size_t length);
+*/
+long sys_munmap(void *addr, unsigned long length) {
+    long ret;
+    __asm__ volatile (
+        "movq $11, %%rax\n\t"
+        "movq %1, %%rdi\n\t"
+        "movq %2, %%rsi\n\t"
+        "syscall\n\t"
+        "movq %%rax, %0\n\t"
+        : "=r"(ret)
+        : "r"(addr), "r"(length)
+        : "rax","rdi","rsi","rcx","r11","memory"
+    );
+    return ret;
 }
