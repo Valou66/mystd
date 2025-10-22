@@ -30,4 +30,8 @@
 #define O_CREAT   0100
 #define O_TRUNC   01000
 #define O_APPEND  02000
+
+#define FD_SCAN 0
+#define FD_PRINT 1
+#define FD_FILE 3
 #endif

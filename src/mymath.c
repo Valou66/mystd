@@ -114,7 +114,7 @@ double sqrtl(double nb){
 
 double ln(double x){
     if(x<=0){
-        myprintf("ln non definit");
+        printf("ln non definit");
         return 0.0;
     }
 

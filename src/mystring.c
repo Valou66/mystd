@@ -111,6 +111,7 @@ unsigned long strcspn(const char* string,const char* rejectedCharacters){
 }
 */
 
+/*
 char* strtok(char *string,const char* delimiters){
     static char* save=0;
 
@@ -125,3 +126,4 @@ char* strtok(char *string,const char* delimiters){
     
 }
 
+*/

@@ -1,15 +1,16 @@
 #include <mystdio.h>
+#include <mystdlib.h>
 
-void put_char(char c){
-    sys_write(1,&c,1);
+void put_char(int fd,char c){
+    sys_write(fd,&c,1);
 }
 
-void put_string(char *s){
+void put_string(int fd,char *s){
     long len=strlen(s);
-    sys_write(1,s,len);
+    sys_write(fd,s,len);
 }
 
-void put_char_nb(char nb){
+void put_char_nb(int fd,char nb){
     char signe=0;
     if(nb<0)signe=1;
 
@@ -37,11 +38,11 @@ void put_char_nb(char nb){
         i--;
     }
 
-    put_string(data+i+1);
+    put_string(fd,data+i+1);
 
 }
 
-void put_short(short nb){
+void put_short(int fd,short nb){
     char signe=0;
     if(nb<0)signe=1;
 
@@ -69,11 +70,11 @@ void put_short(short nb){
         i--;
     }
 
-    put_string(data+i+1);
+    put_string(fd,data+i+1);
 
 }
 
-void put_int(int nb){
+void put_int(int fd,int nb){
     int signe=0;
     if(nb<0) signe=1;
 
@@ -101,11 +102,11 @@ void put_int(int nb){
         i--;
     }
 
-    put_string(data+i+1);
+    put_string(fd,data+i+1);
     
 }
 
-void put_long(long nb){
+void put_long(int fd,long nb){
     char signe=0;
     if(nb<0)signe=1;
 
@@ -130,10 +131,10 @@ void put_long(long nb){
         i--;
     }
 
-    put_string(data+i+1);
+    put_string(fd,data+i+1);
 }
 
-void put_unsigned_char_nb(unsigned char nb){
+void put_unsigned_char_nb(int fd,unsigned char nb){
 
     char data[7];
     data[6]=0;
@@ -154,11 +155,11 @@ void put_unsigned_char_nb(unsigned char nb){
         i--;
     }
 
-    put_string(data+i+1);
+    put_string(fd,data+i+1);
 
 }
 
-void put_unsigned_short(unsigned short nb){
+void put_unsigned_short(int fd,unsigned short nb){
     char data[7];
     data[6]=0;
     int i=5;
@@ -178,11 +179,11 @@ void put_unsigned_short(unsigned short nb){
         i--;
     }
 
-    put_string(data+i+1);
+    put_string(fd,data+i+1);
 
 }
 
-void put_unsigned_int(unsigned int nb){
+void put_unsigned_int(int fd,unsigned int nb){
     char data[12];
     data[11]=0;
     int i=10;
@@ -202,11 +203,11 @@ void put_unsigned_int(unsigned int nb){
         i--;
     }
 
-    put_string(data+i+1);
+    put_string(fd,data+i+1);
     
 }
 
-void put_unsigned_long(unsigned long nb){
+void put_unsigned_long(int fd,unsigned long nb){
     char data[21];
     data[20]=0;
     int i=19;
@@ -223,48 +224,48 @@ void put_unsigned_long(unsigned long nb){
     if(i==19){
         data[i]=get_ascii_digit(0);
     }
-    put_string(data+i+1);
+    put_string(fd,data+i+1);
 }
 
 
-void put_float(float nb){
+void put_float(int fd,float nb){
     long entier=(int)nb;
     float frac=nb-(float)entier;
-    put_long(entier);
-    put_char('.');
+    put_long(fd,entier);
+    put_char(fd,'.');
 
     for(int i=0;i<FLOAT_P;i++){
         frac *=10.0f;
         int digit=(int)frac;
-        put_char('0'+digit);
+        put_char(fd,'0'+digit);
         frac-=digit;
     }
 }
 
-void put_double(double nb){
+void put_double(int fd,double nb){
     long entier=(int)nb;
     double frac=nb-(double)entier;
-    put_long(entier);
-    put_char('.');
+    put_long(fd,entier);
+    put_char(fd,'.');
 
     for(int i=0;i<FLOAT_P;i++){
         frac *=10.0f;
         int digit=(int)frac;
-        put_char('0'+digit);
+        put_char(fd,'0'+digit);
         frac-=digit;
     }
 }
 
-void put_longdouble(long double nb){
+void put_longdouble(int fd,long double nb){
     long entier=(int)nb;
     long double frac=nb-(long double)entier;
-    put_long(entier);
-    put_char('.');
+    put_long(fd,entier);
+    put_char(fd,'.');
 
     for(int i=0;i<FLOAT_P;i++){
         frac *=10.0f;
         int digit=(int)frac;
-        put_char('0'+digit);
+        put_char(fd,'0'+digit);
         frac-=digit;
     }
 }
@@ -284,7 +285,7 @@ long read_line(char* buf,unsigned long size){
     return n;
 }
 
-void myprintf(const char *fmt,...){
+void printf(const char *fmt,...){
 
    
     __builtin_va_list args;
@@ -299,7 +300,7 @@ void myprintf(const char *fmt,...){
             switch (f){
                 case 'd':{
                     int val=__builtin_va_arg(args,int);
-                    put_int(val);
+                    put_int(1,val);
                     break;
                 }
 
@@ -308,39 +309,39 @@ void myprintf(const char *fmt,...){
                         ++i;
                         double val;
                         val=(double)__builtin_va_arg(args,double);
-                        put_double(val);
+                        put_double(1,val);
                     }
                     if(fmt[i+1]=='d'){
                         ++i;
                         long val;
                         val=(long)__builtin_va_arg(args,long);
-                        put_long(val);
+                        put_long(1,val);
                     }
                     if(fmt[i+1]=='u'){
                         ++i;
                         unsigned long val;
                         val=(unsigned long)__builtin_va_arg(args,unsigned long);
-                        put_long(val);
+                        put_long(1,val);
                     }
                     break;
                 }
 
                 case 's':{
                     char *s=__builtin_va_arg(args,char*);
-                    put_string(s);
+                    put_string(1,s);
                     break;
                 }
 
                 case 'c':{
                     char val=(char)__builtin_va_arg(args,int);
-                    put_char(val);
+                    put_char(1,val);
                     break;
                 }
 
                 case 'f':{
                     double val;
                     val=(double)__builtin_va_arg(args,double);
-                    put_double(val);
+                    put_double(1,val);
                     break;
                 }
 
@@ -350,12 +351,12 @@ void myprintf(const char *fmt,...){
         }
 
         else{
-            put_char(fmt[i]);
+            put_char(1,fmt[i]);
         }
     }
 }
 
-void myscanf(const char *fmt,...){
+void scanf(const char *fmt,...){
     __builtin_va_list args;
     __builtin_va_start(args,fmt);
 
@@ -479,4 +480,80 @@ int fclose(FILE *f){
     int ret=sys_close(f->fd);
     free(f);
     return ret;
+}
+
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) {
+    if (!stream || !ptr || size == 0 || nmemb == 0) return 0;
+
+    unsigned long total = size * nmemb;
+    long ret = sys_read(stream->fd, ptr, total);
+
+    if (ret <= 0) return 0;   // fin de fichier ou erreur
+
+    return (size_t)(ret / size);
+}
+
+size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream) {
+    if (!stream || !ptr || size == 0 || nmemb == 0) return 0;
+
+    unsigned long total = size * nmemb;
+    long ret = sys_write(stream->fd, ptr, total);
+
+    if (ret <= 0) return 0;  // erreur
+
+    return (size_t)(ret / size);
+}
+
+void fprintf(FILE *stream, const char *fmt, ...) {
+    __builtin_va_list args;
+    __builtin_va_start(args, fmt);
+
+    for (int i = 0; fmt[i] != '\0'; i++) {
+        if (fmt[i] == '%') {
+            char f = fmt[++i];
+
+            switch (f) {
+            case 'd': {
+                int v = __builtin_va_arg(args, int);
+                put_int(stream->fd, v);
+                break;
+            }
+            case 'l': {
+                char n = fmt[i + 1];
+                if (n == 'd') {
+                    ++i;
+                    long v = __builtin_va_arg(args, long);
+                    put_int(stream->fd, v);
+                } else if (n == 'f') {
+                    ++i;
+                    double v = __builtin_va_arg(args, double);
+                    put_double(stream->fd, v);
+                }
+                break;
+            }
+            case 'f': {
+                double v = __builtin_va_arg(args, double);
+                put_double(stream->fd, v);
+                break;
+            }
+            case 's': {
+                char *s = __builtin_va_arg(args, char*);
+                put_string(stream->fd, s);
+                break;
+            }
+            case 'c': {
+                char ch = (char)__builtin_va_arg(args, int);
+                put_char(stream->fd, ch);
+                break;
+            }
+            case '%':
+                put_char(stream->fd, '%');
+                break;
+            }
+        } else {
+            put_char(stream->fd, fmt[i]);
+        }
+    }
+
+    __builtin_va_end(args);
 }
