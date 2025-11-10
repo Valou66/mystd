@@ -2,12 +2,12 @@
 #include <mystdlib.h>
 
 void put_char(int fd,char c){
-    sys_write(fd,&c,1);
+    write(fd,&c,1);
 }
 
 void put_string(int fd,char *s){
     long len=strlen(s);
-    sys_write(fd,s,len);
+    write(fd,s,len);
 }
 
 void put_char_nb(int fd,char nb){
@@ -497,7 +497,7 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream) {
     if (!stream || !ptr || size == 0 || nmemb == 0) return 0;
 
     unsigned long total = size * nmemb;
-    long ret = sys_write(stream->fd, ptr, total);
+    long ret = write(stream->fd, ptr, total);
 
     if (ret <= 0) return 0;  // erreur
 

@@ -26,7 +26,7 @@ long sys_read_retry(int fd,void *buf,unsigned long count){
     return r;
 }
 
-long sys_write(int fd, void *buf, unsigned long count) {
+long sys_write(int fd, const void *buf, unsigned long count) {
     long ret;
     asm volatile (
         "movq $1, %%rax\n\t"   // syscall number: 1 = write
@@ -86,7 +86,33 @@ void *sys_brk(void *addr){
     return (void *) (uintptr_t) ret;
 }
 
+int sys_nanosleep(struct timespec *rqtp,struct timespec *rmtp){
+    long ret;
+    __asm__ volatile(
+        "movq $35, %%rax\n\t"   // syscall 35 = nanosleep
+        "movq %1, %%rdi\n\t"    // arg1 = req
+        "movq %2, %%rsi\n\t"    // arg2 = rem (peut être NULL)
+        "syscall\n\t"
+        "movq %%rax, %0\n\t"
+        : "=r"(ret)
+        : "r"(rqtp), "r"(rmtp)
+        : "rax","rdi","rsi","rcx","r11","memory"
+    );
+    return ret;
+}
 
+int sys_fork(){
+    long ret;
+    __asm__ volatile(
+        "movq $57, %%rax\n\t"   // syscall fork = 57
+        "syscall\n\t"
+        "movq %%rax, %0\n\t"
+        : "=r"(ret)
+        :
+        : "rax","rcx","r11","memory"
+    );
+    return (int)ret;
+}
 
 // --- exit system call ---
 void sys_exit(int code) {

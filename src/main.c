@@ -78,7 +78,17 @@ int main() {
     fclose(fichier1);
     
 
-   
+    
+    int aaa=10,bbb=20;
+
+    pid_t test_pid=fork();
+
+    if(test_pid!=0){
+        printf("aaa=%d\n",aaa);
+    }
+    else{
+        printf("bbb=%d\n",bbb);
+    }
     
 
 

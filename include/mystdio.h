@@ -2,21 +2,12 @@
 #define mystdio_h
 
 #include <mystring.h>
-#include <mysyscall.h>
+#include <myunistd.h>
 #include <convert.h>
 #include <macro.h>
+#include <mytypes.h>
 
-typedef unsigned long size_t;
-typedef long ssize_t;
-typedef unsigned long uintptr_t;
 
-typedef struct{
-    int fd;
-    char mode;
-    char *buffer;
-    unsigned long pos;
-    unsigned long size;
-}FILE;
 
 
 
