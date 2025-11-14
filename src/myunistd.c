@@ -32,3 +32,11 @@ int usleep(useconds_t useconds){
 pid_t fork(){
     return sys_fork();   
 }
+
+pid_t getpid(){
+    return sys_getpid();
+}
+
+pid_t getppid(){
+    return sys_getppid();
+}

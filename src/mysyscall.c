@@ -72,6 +72,21 @@ long sys_close(int fd) {
     return ret;
 }
 
+long sys_stat(const char *pathname,struct stat *buf){
+    long ret;
+    __asm__ volatile(
+        "movq $4, %%rax\n\t"    // syscall 4: stat
+        "movq %1, %%rdi\n\t"    // arg1: pathname
+        "movq %2, %%rsi\n\t"    // arg2: struct stat*
+        "syscall\n\t"
+        "movq %%rax, %0\n\t"    // return value
+        : "=r"(ret)
+        : "r"(pathname), "r"(buf)
+        : "rax","rdi","rsi","rcx","r11","memory"
+    );
+    return ret;
+}
+
 void *sys_brk(void *addr){
     long ret;
     __asm__ volatile (
@@ -97,6 +112,32 @@ int sys_nanosleep(struct timespec *rqtp,struct timespec *rmtp){
         : "=r"(ret)
         : "r"(rqtp), "r"(rmtp)
         : "rax","rdi","rsi","rcx","r11","memory"
+    );
+    return ret;
+}
+
+long sys_getpid(){
+    long ret;
+    __asm__ volatile(
+        "movq $39, %%rax\n\t"   // syscall 35 = nanosleep
+        "syscall\n\t"
+        "movq %%rax, %0\n\t"
+        : "=r"(ret)
+        : 
+        : "rax","rcx","r11","memory"
+    );
+    return ret;
+}
+
+long sys_getppid(){
+    long ret;
+    __asm__ volatile(
+        "movq $110, %%rax\n\t"   // syscall 35 = nanosleep
+        "syscall\n\t"
+        "movq %%rax, %0\n\t"
+        : "=r"(ret)
+        : 
+        : "rax","rcx","r11","memory"
     );
     return ret;
 }

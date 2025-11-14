@@ -10,5 +10,8 @@ unsigned int sleep(unsigned int);
 int usleep(useconds_t);
 
 pid_t fork();
+pid_t getpid();
+pid_t getppid();
+
 
 #endif

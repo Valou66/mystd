@@ -1,7 +1,7 @@
 #include <mystdio.h>
 #include <mymath.h>
 #include <mystdlib.h>
-
+#include <mystat.h>
 
 
 // --- ton vrai main() ---
@@ -57,7 +57,7 @@ int main() {
 
     FILE* fichier=fopen("test1.txt","w");
 
-    const char tttt[]="nique les juifs\n";
+    const char tttt[]="nique les juifs d'affrique ptn\n";
 
     fwrite(tttt,1,sizeof(tttt)-1,fichier);
 
@@ -81,16 +81,19 @@ int main() {
     
     int aaa=10,bbb=20;
 
-    pid_t test_pid=fork();
 
-    if(test_pid!=0){
-        printf("aaa=%d\n",aaa);
-    }
-    else{
-        printf("bbb=%d\n",bbb);
-    }
-    
+    printf("pid=%d et ppid=%d\n",getpid(),getppid());
 
+
+    printf("test stat\n");
+
+    struct stat buf;
+
+    stat("test1.txt",&buf);
+
+    printf("size=%ld\n",buf.st_size);
+    printf("block_size=%d\n",buf.st_blksize);
+    printf("nbblock=%ld\n",buf.st_blocks);
 
     
     
